@@ -27,6 +27,7 @@ class UgridViz(QtGui.QWidget):
         Consolidate initialization of the widget.
         """
         self.dimension()
+        self.layOut()
         self.decorate()
         self.show()
         return
@@ -40,6 +41,30 @@ class UgridViz(QtGui.QWidget):
         fg = self.frameGeometry()
         fg.moveCenter(ag.center())
         self.move(fg.topLeft())
+        return
+
+    def layOut(self):
+        """
+        Layout the widget container.
+        """
+        fg = self.frameGeometry()
+        viewmap = QtGui.QPixmap(fg.width(), fg.height())
+        viewmap.fill()
+        viewer = QtGui.QLabel(self)
+        viewer.setPixmap(viewmap)
+        urlLabel = QtGui.QLabel("URL:")
+        urlEdit = QtGui.QLineEdit(self)
+        urlButton = QtGui.QPushButton("Load")
+        urlBox = QtGui.QHBoxLayout()
+        urlBox.addWidget(urlLabel)
+        urlBox.addWidget(urlEdit, fg.width())
+        urlBox.addStretch(1)
+        urlBox.addWidget(urlButton)
+        vbox = QtGui.QVBoxLayout()
+        vbox.addWidget(viewer, fg.width(), QtCore.Qt.AlignTop)
+        vbox.addStretch(1)
+        vbox.addLayout(urlBox)
+        self.setLayout(vbox)
         return
 
     def decorate(self):
